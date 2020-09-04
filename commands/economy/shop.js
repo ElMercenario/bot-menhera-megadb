@@ -15,7 +15,7 @@ module.exports = {
                 break;
             case 'shell':
                 let arg2 = args[1]
-                if (!arg2.length) return message.channel.send('Debes especificar el item que quieres vender')
+                if (!arg2) return message.channel.send('Debes especificar el item que quieres vender')
                 const config = new db.crearDB(message.author.id, 'usuarios')
                 let bagDB = await config.get('inventory.bag')
                 let bag = bagDB.find(item => item.item == arg2)
