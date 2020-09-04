@@ -1,6 +1,6 @@
 const db = require('megadb')
 const fs = require('fs')
-module.exports = {
+module.exports = { 
     name: 'guildDelete',
     run(client, guild) {
         console.log(`\nHe sido eliminado de el servidor ${guild.name}`);
