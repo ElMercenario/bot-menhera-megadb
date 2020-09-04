@@ -3,13 +3,13 @@ const Discord = require('discord.js')
 module.exports = {
     name: 'shop',
     description: 'Compra, vende y revisa la tienda de otros jugadores',
-    usage: 'shop < buy / shell / show >',
+    usage: 'shop < buy / shell / show / cancel >',
     permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS'],
     category: __dirname.split('\\').pop(),
     disable: true,
     execute: async (message, args) => {
         const accion = args[0]
-        if (!accion) return message.channel.send('Debes especificar una accion para realizar asi \`buy\` \`shell\` \`show\`')
+        if (!accion) return message.channel.send('Debes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\`')
         switch (accion) {
             case 'buy':
                 message.channel.send('En proceso....')
@@ -25,7 +25,7 @@ module.exports = {
                 if (bag == undefined || bag == -1) return message.channel.send('hmm al parecer no tienes ese objeto en tu mochila')
                 let precioProducto = parseInt(args[2])
                 if (isNaN(precioProducto)) return message.channel.send('El precio que especificaste es incorrecto')
-                if(precioProducto > 1000) return message.channel.send('El precio no puede ser mayor a 1000')
+                if (precioProducto > 1000) return message.channel.send('El precio no puede ser mayor a 1000')
                 if (!precioProducto) return message.channel.send('Debes especificar un precio')
                 let usuShop = await config.get('inventory.shop.productos')
                 if (usuShop.length >= 10) return message.channel.send('Ya alcanzaste el maximo de productos en venta (x10)')
@@ -75,9 +75,11 @@ module.exports = {
                 message.channel.send(embedShopShow)
                 break;
 
-
+            case 'cancel':
+                message.channel.send('En proceso...')
+                break
             default:
-                message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\`')
+                message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\`')
                 break;
         }
     }
