@@ -1,0 +1,26 @@
+{
+    "disable": true,
+    "minerales": [
+        "Roca", "Roca", "Roca", "Roca",
+        "Roca", "Roca", "Diamante", "Hierro",
+        "Hierro", "Hierro", "Hierro", "Madera",
+        "Madera", "Madera", "Madera", "Madera",
+        "Madera", "Madera", "Madera", "Madera",
+        "Madera", "Madera", "Madera", "Madera",
+        "Madera", "Madera", "Madera", "Madera",
+        "Madera", "Madera", "Madera", "Carbon",
+        "Carbon", "Carbon", "Carbon", "Carbon",
+        "Carbon", "Carbon", "Azure", "Amatista",
+        "Perla", "Azure", "Amatista", "Perla",
+        "Carbon", "Carbon", "Roca", "Roca"
+    ],
+    "trabajos": ["Trabajaste como mi chofer de uber",
+        "Trabajaste como tendero en mi bar",
+        "Trabajaste vendiendo pizzas por domicilio",
+        "Fuiste mensajero pero te chocaste con un taxi y tuviste que pagar para que lo arreglen"
+    ],
+    "robos": ["Otra vez robando que triste",
+        "le robaste la cartera a tu madre que diria ella",
+        "Robaste un banco! :O"
+    ]
+}
