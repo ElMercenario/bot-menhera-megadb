@@ -27,7 +27,7 @@ module.exports = {
                 .addField('• Categorias', carpetas.map(category => {
                     return `\`${prefix}help ${category}\` ║ ${category.charAt(0).toUpperCase() + category.substr(1)}`
                 }))
-                .addField('• Enlaces útiles:', '[Donaciones](https://ko-fi.com/bototaku) ║ [Documentacion](https://no-hayxd.com) ║ [Soporte](https://discord.gg/KxNHeaz) ║ [Invitame](https://discord.com/oauth2/authorize?client_id=732398026878091284&scope=bot&permissions=8)')
+                .addField('• Enlaces útiles:', '[Donaciones](https://ko-fi.com/bototaku) ║ [Documentacion](https://no-hayxd.com) ║ [Soporte](https://discord.gg/KxNHeaz) ║ [Invitame](https://discord.com/oauth2/authorize?client_id=732398026878091284&scope=bot&permissions=8) ║ [Repositorio](https://github.com/hola-sebas/bot-menhera)')
                 .setFooter(`${client.user.username} version ${version.version}`, client.user.displayAvatarURL())
                 .setThumbnail('https://cdn.discordapp.com/attachments/736287295522603098/742490666692509776/274-2748314_freetoedit-menherachan-animegirl-animecute-png-kawaii-anime-girl.png')
             message.channel.send(embed)
