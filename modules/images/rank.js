@@ -14,7 +14,7 @@ module.exports = {
         const ctx = lienzo.getContext('2d')
         let opacity = 0.5
         let b = await canvas.loadImage(bg).catch(err=>{
-            throw 'La imagen de fondo no es valida'
+            throw err
         })
         let avatar = await canvas.loadImage(user.displayAvatarURL({ dynamic: false, size: 1024, format: "png" }))
         let temp = lienzo.width - 250

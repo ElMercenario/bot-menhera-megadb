@@ -12,7 +12,7 @@ module.exports = {
     execute: async (message, args, prefix, client) => {
         message.channel.startTyping()
         let user = message.mentions.users.first() || message.author
-        if(user.id == client.user.id) return message.channel.send('Esa soy yo!\nTengo un nivel I N F I N I T O (⌐■_■)')
+        if (user.id == client.user.id) return message.channel.send('Esa soy yo!\nTengo un nivel I N F I N I T O (⌐■_■)')
         if (!fs.existsSync(`././mega_databases/usuarios/${user.id}.json`)) return message.channel.send('Hmmm no tengo datos de ese usuario')
         let config = new db.crearDB(user.id, 'usuarios')
         let level = await config.obtener('xp.nivel')
@@ -20,8 +20,13 @@ module.exports = {
         let needXP = await config.get('xp.necesario')
         let color = await config.get('xp.color')
         let url = await config.get('xp.url')
-        let img = await render.run(user, color, level, curXp, needXP, url)
-        message.channel.send({ files: [img] })
-        message.channel.stopTyping()
+        try {
+            let img = await render.run(user, color, level, curXp, needXP, url)
+            message.channel.send({ files: [img] })
+            message.channel.stopTyping()
+        } catch (err) {
+            message.channel.send(err)
+            message.channel.stopTyping()
+        }
     }
 }   
