@@ -7,7 +7,7 @@ module.exports = {
             const y = require(`../utils/${utilidad}`);
             process.on(y.name, y.run);
             readline.cursorTo(process.stdout, 0);
-            process.stdout.write(`Correcto! Se cargaron ${utilsCount} comandos`);
+            process.stdout.write(`Correcto! Se cargaron ${utilsCount} Utilidades`);
         });
         console.log("\n");
     },

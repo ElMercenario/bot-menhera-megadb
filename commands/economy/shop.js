@@ -14,11 +14,11 @@ module.exports = {
                 message.channel.send('En proceso....')
                 break;
             case 'shell':
-                let arg2 = args[1]
-                if (!arg2) return message.channel.send('Debes especificar el item que quieres vender')
+                let itemToShell = args[1]
+                if (!itemToShell) return message.channel.send('Debes especificar el item que quieres vender')
                 const config = new db.crearDB(message.author.id, 'usuarios')
                 let bagDB = await config.get('inventory.bag')
-                let bag = bagDB.find(item => item.item == arg2)
+                let bag = bagDB.find(item => item.item == itemToShell)
                 if (!bag) return message.channel.send('hmm al parecer no tienes ese objeto en tu mochila')
                 message.channel.send(bag)
                 break;

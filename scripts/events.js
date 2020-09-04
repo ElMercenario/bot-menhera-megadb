@@ -15,7 +15,7 @@ module.exports = {
                 eventCount++
 
                 readline.cursorTo(process.stdout, 0);
-                process.stdout.write(`Correcto! Se cargaron ${eventCount} comandos`);
+                process.stdout.write(`Correcto! Se cargaron ${eventCount} eventos`);
             } catch (err) {
                 process.emit('error', 4, eventFile, err);
             }
