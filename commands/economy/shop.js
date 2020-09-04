@@ -23,7 +23,9 @@ module.exports = {
                 let bagDB = await config.get('inventory.bag')
                 let bag = bagDB.findIndex(item => item.item == itemToShell)
                 if (bag == undefined || bag == -1) return message.channel.send('hmm al parecer no tienes ese objeto en tu mochila')
-                let precioProducto = args[2]
+                let precioProducto = parseInt(args[2])
+                if (isNaN(precioProducto)) return message.channel.send('El precio que especificaste es incorrecto')
+                if(precioProducto > 1000) return message.channel.send('No puedes poner un numero mayor a 1000')
                 if (!precioProducto) return message.channel.send('Debes especificar un precio')
                 let usuShop = await config.get('inventory.shop.productos')
                 if (usuShop.length >= 10) return message.channel.send('Ya alcanzaste el maximo de productos en venta (x10)')
