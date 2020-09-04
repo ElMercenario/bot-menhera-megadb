@@ -14,6 +14,8 @@ module.exports = {
             case 'buy':
                 message.channel.send('En proceso....')
                 break;
+
+
             case 'shell':
                 let itemToShell = args[1]
                 if (!itemToShell) return message.channel.send('Debes especificar el item que quieres vender')
@@ -24,8 +26,8 @@ module.exports = {
                 let precioProducto = args[2]
                 if (!precioProducto) return message.channel.send('Debes especificar un precio')
                 let usuShop = await config.get('inventory.shop.productos')
-                if(usuShop.length >= 10) return message.channel.send('Ya alcanzaste el maximo de productos en venta (x10)')
-                
+                if (usuShop.length >= 10) return message.channel.send('Ya alcanzaste el maximo de productos en venta (x10)')
+
                 let cantidad = await config.get('inventory.bag').then(itemsEnMochila => {
                     let toOk = itemsEnMochila.map(item => {
                         if (item.item == itemToShell) {
@@ -49,9 +51,29 @@ module.exports = {
                     message.channel.send(embedTiendaActualizada)
                 })
                 break;
+
+
             case 'show':
-                message.channel.send('En proceso....')
+                const embedShopShow = new Discord.MessageEmbed()
+                    .setColor('RANDOM')
+                let usuMencion = message.mentions.users.first() || message.author
+                if (usuMencion.bot) return message.channel.send('Los bots no pueden tener una tienda :(')
+                const dbUsu = new db.crearDB(usuMencion.id, 'usuarios')
+                let usuMencionShop = await dbUsu.get('inventory.shop.productos')
+                if (!usuMencionShop.length) {
+                    embedShopShow.setTitle(`Tienda de ${usuMencion.tag}`)
+                    embedShopShow.setDescription(`El usuario ${usuMencion} no tiene ningun objeto a la venta`)
+                    message.channel.send(embedShopShow)
+                    return
+                }
+                embedShopShow.setTitle(`Tienda de ${usuMencion.tag}`)
+                embedShopShow.setDescription(usuMencionShop.map(item => {
+                    return `\`\`\`Producto: ${item.item}\nPrecio: ${item.price}\`\`\``
+                }).join(' '))
+                message.channel.send(embedShopShow)
                 break;
+
+
             default:
                 message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\`')
                 break;
