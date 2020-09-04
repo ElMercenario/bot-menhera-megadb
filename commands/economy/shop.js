@@ -25,7 +25,7 @@ module.exports = {
                 if (bag == undefined || bag == -1) return message.channel.send('hmm al parecer no tienes ese objeto en tu mochila')
                 let precioProducto = parseInt(args[2])
                 if (isNaN(precioProducto)) return message.channel.send('El precio que especificaste es incorrecto')
-                if(precioProducto > 1000) return message.channel.send('El precion no puede ser mayor a 1000')
+                if(precioProducto > 1000) return message.channel.send('El precio no puede ser mayor a 1000')
                 if (!precioProducto) return message.channel.send('Debes especificar un precio')
                 let usuShop = await config.get('inventory.shop.productos')
                 if (usuShop.length >= 10) return message.channel.send('Ya alcanzaste el maximo de productos en venta (x10)')
