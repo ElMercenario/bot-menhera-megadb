@@ -21,7 +21,7 @@ module.exports = {
                 let url = await config.get('xp.url')
                 message.channel.startTyping()
                 let img = await render.run(message.author, color, level, curXp, needXP, url).catch(err => console.log(err.toString()))
-                message.reply(`Haz subido de nivel`, { files: [img] }).then(m => m.delete({ timeout: 10000 }))
+                message.reply(`Has subido de nivel`, { files: [img] }).then(m => m.delete({ timeout: 10000 }))
                 message.channel.stopTyping()
             }
         }, 50)
