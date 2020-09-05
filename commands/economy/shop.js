@@ -4,13 +4,13 @@ const Discord = require('discord.js')
 module.exports = {
     name: 'shop',
     description: 'Compra, vende y revisa la tienda de otros jugadores',
-    usage: 'shop < buy / shell / show / cancel >',
+    usage: 'shop < buy / shell / show / cancel / open / close / info >',
     permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS'],
     category: __dirname.split('\\').pop(),
     disable: true,
     execute: async (message, args, prefix, client) => {
         const accion = args[0]
-        if (!accion) return message.channel.send('Debes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\`')
+        if (!accion) return message.channel.send('Debes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\` \`open\` \`close\` \`info\`')
         switch (accion) {
             case 'buy':
                 const buyUsuMencion = message.mentions.users.first()
@@ -19,7 +19,7 @@ module.exports = {
                 if (buyUsuMencion.id == client.user.id) return message.channel.send('No tengo tiempo para abrir una tienda')
                 if (!fs.existsSync(`././mega_databases/usuarios/${buyUsuMencion.id}.json`)) return message.channel.send('Hmm no tengo datos de ese usuario')
                 const buyDbMencion = new db.crearDB(buyUsuMencion.id, 'usuarios')
-                if(!await buyDbMencion.get('inventory.shop.open')) return message.channel.send(`${buyUsuMencion} tiene la tienda cerrada vuelve mas tarde o pidele que la abraA`)
+                if (!await buyDbMencion.get('inventory.shop.open')) return message.channel.send(`${buyUsuMencion} tiene la tienda cerrada vuelve mas tarde o pidele que la abraA`)
                 let buyProductoAComprar = args[2]
                 if (!buyProductoAComprar) return message.channel.send('Debes escribir un producto para comprar')
                 let buyIndexShop = await buyDbMencion.get('inventory.shop.productos').then(shop => {
@@ -59,7 +59,6 @@ module.exports = {
                 buyDbAuthor.set('inventory.shop.compras.producto', buyProductoAComprar)
                 buyDbAuthor.set('inventory.shop.compras.usuario', `${buyUsuMencion.tag}(${buyUsuMencion.id})`)
                 buyDbAuthor.set('inventory.shop.compras.fecha', `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`)
-
                 message.channel.send(`Compraste ${buyProductoAComprar} por un precio de ${buyProducto.price}\$`)
                 break;
 
@@ -130,8 +129,14 @@ module.exports = {
             case 'cancel':
                 message.channel.send('En proceso...')
                 break
+            case 'open':
+                break;
+            case 'close':
+                break;
+            case 'info':
+                break;
             default:
-                message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\`')
+                message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\` \`open\` \`close\` \`info\`')
                 break;
         }
     }
