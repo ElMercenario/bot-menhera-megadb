@@ -34,7 +34,7 @@ module.exports = {
             invShop = 'No hay items'
         }else {
             invShop = invShop.map(item=>{
-                return `${item.item} (x${item.cantidad}) \$${item.precio}`
+                return `${item.item} ${item.price}\$`
             }).join('\n')
         }
         const embedProfile = new Discord.MessageEmbed()
