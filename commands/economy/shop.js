@@ -154,6 +154,14 @@ module.exports = {
                 }
                 break
             case 'open':
+                const openDbAuthor = new db.crearDB(message.author.id, 'usuarios')
+                let openShopOpen = await openDbAuthor.get('inventory.shop.open')
+                if (openShopOpen) {
+                    message.channel.send('Tu tienda ya esta abierta')
+                } else {
+                    openDbAuthor.set('inventory.shop.open', true)
+                    message.reply('Abriste tu tienda!')
+                }
                 break;
             case 'close':
                 break;
