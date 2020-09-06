@@ -55,7 +55,7 @@ module.exports = {
                 buyDbMencion.delIndex('inventory.shop.productos', buyIndexShop)
                 buyDbMencion.set('inventory.shop.ventas.usuario', `${message.author.tag}(${message.author.id})`)
                 buyDbMencion.set('inventory.shop.ventas.producto', buyProductoAComprar)
-                buyDbMencion.set('inventory.shop.compras.fecha', `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`)
+                buyDbMencion.set('inventory.shop.ventas.fecha', `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`)
                 buyDbAuthor.set('inventory.shop.compras.producto', buyProductoAComprar)
                 buyDbAuthor.set('inventory.shop.compras.usuario', `${buyUsuMencion.tag}(${buyUsuMencion.id})`)
                 buyDbAuthor.set('inventory.shop.compras.fecha', `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`)
@@ -71,7 +71,7 @@ module.exports = {
                     let asd = obtenido.findIndex(item => item.item == shellItemToShell)
                     return asd
                 })
-
+                console.log(shellIndexBag);
                 if (shellIndexBag == undefined || shellIndexBag == -1) return message.channel.send('Hmm al parecer no tienes ese objeto en tu mochila')
                 if (!args[2]) return message.channel.send('Debes ponerle un precio al producto')
                 let shellPrecioProducto = parseInt(args[2])
@@ -174,6 +174,23 @@ module.exports = {
                 }
                 break;
             case 'info':
+                let infoUsu = message.mentions.users.first() || message.author
+                if(!fs.existsSync(`././mega_databases/usuarios/${infoUsu.id}.json`)) return message.channel.send('No tengo datos de ese usuario')
+                const infoDbUsu = new db.crearDB(infoUsu.id, 'usuarios')
+                let infoVentasUsu = await infoDbUsu.get('inventory.shop.ventas.usuario')
+                let infoVentasProducto = await infoDbUsu.get('inventory.shop.ventas.producto')
+                let infoVentasFecha = await infoDbUsu.get('inventory.shop.ventas.fecha')
+                if(infoVentasFecha == undefined) infoVentasFecha = 'No hay datos';
+                let infoComprasUsu = await infoDbUsu.get('inventory.shop.compras.usuario')
+                let infoComprasProducto = await infoDbUsu.get('inventory.shop.compras.producto')
+                let infoComprasFecha = await infoDbUsu.get('inventory.shop.compras.fecha')
+                const infoEmbed = new Discord.MessageEmbed()
+                    .setTitle(`Informacion hacerca de las transacciones de ${infoUsu.tag}`)
+                    .addField(`**Ventas**`, `*Ultimo usuario registrado:*\n👤 ${infoVentasUsu}\n*Ultimo producto registrado:*\n🏷 ${infoVentasProducto}\n*Ultima fecha registrada:*\n📆 ${infoVentasFecha}`, true)
+                    .addField(`**Compras**`, `*Ultimo usuario registrado:*\n👤 ${infoComprasUsu}\n*Ultimo producto registrado:*\n🏷 ${infoComprasProducto}\n*Ultima fecha registrada:*\n📆 ${infoComprasFecha}`, true)
+                    .setColor('RANDOM')
+                    .setFooter(`Consultado por: ${message.author.tag}`, message.author.displayAvatarURL())
+                message.channel.send(infoEmbed)
                 break;
             default:
                 message.channel.send('Esa accion no existe\nDebes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\` \`open\` \`close\` \`info\`')
