@@ -127,7 +127,31 @@ module.exports = {
                 break;
 
             case 'cancel':
-                message.channel.send('En proceso...')
+                let cancelProducto = args[1]
+                if (!cancelProducto) return message.channel.send('Debes escribir un producto para quitar de la venta')
+                const cancelDbAuthor = new db.crearDB(message.author.id, 'usuarios')
+                let cancelIndexShop = await cancelDbAuthor.get('inventory.shop.productos').then(producto => {
+                    let ok = producto.findIndex(item => item.item == cancelProducto)
+                    return ok
+                })
+                if (cancelIndexShop == -1) {
+                    return message.channel.send('No tienes ese producto a la venta')
+                } else {
+                    let cancelIndexBag = await cancelDbAuthor.get('inventory.bag').then(producto => {
+                        let ok = producto.findIndex(item => item.item == cancelProducto)
+                        return ok
+                    })
+                    if (cancelIndexBag == -1) {
+                        cancelDbAuthor.push('inventory.bag', { item: cancelProducto, cantidad: 1 })
+                        cancelDbAuthor.delIndex('inventory.shop.productos', cancelIndexShop)
+                    } else {
+                        let cancelBagAuthor = await cancelDbAuthor.get('inventory.bag')
+                        cancelBagAuthor = cancelBagAuthor[cancelIndexBag]
+                        cancelDbAuthor.setIndex('inventory.bag', cancelIndexBag, { item: cancelBagAuthor.item, cantidad: cancelBagAuthor.cantidad + 1 })
+                        cancelDbAuthor.delIndex('inventory.shop.productos', cancelIndexShop)
+                    }
+                    message.channel.send(`El producto ${cancelProducto} se ha retirado corectamente`)
+                }
                 break
             case 'open':
                 break;
