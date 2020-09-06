@@ -1,6 +1,6 @@
-const fs = require('fs')
-const db = require('megadb')
-const Discord = require('discord.js')
+const fs = require('fs'),
+    db = require('megadb'),
+    Discord = require('discord.js');
 module.exports = {
     name: 'shop',
     description: 'Compra, vende y revisa la tienda de otros jugadores',
@@ -69,7 +69,6 @@ module.exports = {
                     let asd = obtenido.findIndex(item => item.item == shellItemToShell)
                     return asd
                 })
-                console.log(shellIndexBag);
                 if (shellIndexBag == undefined || shellIndexBag == -1) return message.channel.send('Hmm al parecer no tienes ese objeto en tu mochila')
                 if (!args[2]) return message.channel.send('Debes ponerle un precio al producto')
                 let shellPrecioProducto = parseInt(args[2])
@@ -170,12 +169,12 @@ module.exports = {
                 break;
             case 'info':
                 let infoUsu = message.mentions.users.first() || message.author
-                if(!fs.existsSync(`././mega_databases/usuarios/${infoUsu.id}.json`)) return message.channel.send('No tengo datos de ese usuario')
+                if (!fs.existsSync(`././mega_databases/usuarios/${infoUsu.id}.json`)) return message.channel.send('No tengo datos de ese usuario')
                 const infoDbUsu = new db.crearDB(infoUsu.id, 'usuarios')
                 let infoVentasUsu = await infoDbUsu.get('inventory.shop.ventas.usuario')
                 let infoVentasProducto = await infoDbUsu.get('inventory.shop.ventas.producto')
                 let infoVentasFecha = await infoDbUsu.get('inventory.shop.ventas.fecha')
-                if(infoVentasFecha == undefined) infoVentasFecha = 'No hay datos';
+                if (infoVentasFecha == undefined) infoVentasFecha = 'No hay datos';
                 let infoComprasUsu = await infoDbUsu.get('inventory.shop.compras.usuario')
                 let infoComprasProducto = await infoDbUsu.get('inventory.shop.compras.producto')
                 let infoComprasFecha = await infoDbUsu.get('inventory.shop.compras.fecha')
