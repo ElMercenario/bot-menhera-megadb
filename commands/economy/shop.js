@@ -164,6 +164,14 @@ module.exports = {
                 }
                 break;
             case 'close':
+                const closeDbAuthor = new db.crearDB(message.author.id, 'usuarios')
+                let closeShopOpen = await closeDbAuthor.get('inventory.shop.open')
+                if (closeShopOpen) {
+                    closeDbAuthor.set('inventory.shop.open', false)
+                    message.reply('Cerraste tu tienda!')
+                } else {
+                    message.channel.send('Tu tienda ya esta cerrada')
+                }
                 break;
             case 'info':
                 break;
