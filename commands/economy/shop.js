@@ -37,6 +37,7 @@ module.exports = {
                 let buyMoneyAuthor = await buyDbAuthor.get('money.efectivo')
                 if (buyProducto.price > buyMoneyAuthor) return message.channel.send('No tienes el dinero en efectivo suficiente para comprar ese producto')
                 buyDbAuthor.restar('money.efectivo', buyProducto.price)
+                buyDbMencion.sumar('money.bank', buyProducto.price)
                 let buyIndexBagAuthor = await buyDbAuthor.get('inventory.bag').then(bag => {
                     let ok = bag.findIndex(item => item.item == buyProductoAComprar)
                     return ok
