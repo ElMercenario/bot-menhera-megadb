@@ -19,7 +19,7 @@ module.exports = {
                 if (buyUsuMencion.id == client.user.id) return message.channel.send('No tengo tiempo para abrir una tienda')
                 if (!fs.existsSync(`././mega_databases/usuarios/${buyUsuMencion.id}.json`)) return message.channel.send('Hmm no tengo datos de ese usuario')
                 const buyDbMencion = new db.crearDB(buyUsuMencion.id, 'usuarios')
-                if (!await buyDbMencion.get('inventory.shop.open')) return message.channel.send(`${buyUsuMencion} tiene la tienda cerrada vuelve mas tarde o pidele que la abraA`)
+                if (!await buyDbMencion.get('inventory.shop.open')) return message.channel.send(`${buyUsuMencion} tiene la tienda cerrada vuelve mas tarde o pidele que la abra`)
                 let buyProductoAComprar = args[2]
                 if (!buyProductoAComprar) return message.channel.send('Debes escribir un producto para comprar')
                 let buyIndexShop = await buyDbMencion.get('inventory.shop.productos').then(shop => {
@@ -61,8 +61,6 @@ module.exports = {
                 buyDbAuthor.set('inventory.shop.compras.fecha', `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`)
                 message.channel.send(`Compraste ${buyProductoAComprar} por un precio de ${buyProducto.price}\$`)
                 break;
-
-
             case 'shell':
                 let shellItemToShell = args[1]
                 if (!shellItemToShell) return message.channel.send('Debes especificar el item que quieres vender')
@@ -104,8 +102,6 @@ module.exports = {
                     message.channel.send(embedTiendaActualizada)
                 })
                 break;
-
-
             case 'show':
                 const embedShopShow = new Discord.MessageEmbed()
                     .setColor('RANDOM')
@@ -125,7 +121,6 @@ module.exports = {
                 }).join(' '))
                 message.channel.send(embedShopShow)
                 break;
-
             case 'cancel':
                 let cancelProducto = args[1]
                 if (!cancelProducto) return message.channel.send('Debes escribir un producto para quitar de la venta')
