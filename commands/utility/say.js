@@ -3,7 +3,7 @@ module.exports = {
     name: 'say',
     description: 'Dime que tengo que decir',
     usage: 'say (canal) <mensaje>',
-    permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS'],
+    permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS', 'MANAGE_MESSAGES'],
     category: __dirname.split('\\').pop(),
     disable: true,
     execute: async (message, args, prefix) => {
