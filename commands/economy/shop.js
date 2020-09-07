@@ -13,6 +13,7 @@ module.exports = {
         if (!accion) return message.channel.send('Debes especificar una accion para realizar asi \`buy\` \`shell\` \`show\` \`cancel\` \`open\` \`close\` \`info\`')
         switch (accion) {
             case 'buy':
+                let buyArgs = args
                 const buyUsuMencion = message.mentions.users.first()
                 if (!buyUsuMencion) return message.channel.send('Debes mencionar a un usuario para comprarle')
                 if (buyUsuMencion.id == message.author.id) return message.channel.send('No te puedes comparte a ti mismo')
@@ -20,7 +21,7 @@ module.exports = {
                 if (!fs.existsSync(`././mega_databases/usuarios/${buyUsuMencion.id}.json`)) return message.channel.send('Hmm no tengo datos de ese usuario')
                 const buyDbMencion = new db.crearDB(buyUsuMencion.id, 'usuarios')
                 if (!await buyDbMencion.get('inventory.shop.open')) return message.channel.send(`${buyUsuMencion} tiene la tienda cerrada vuelve mas tarde o pidele que la abra`)
-                let buyProductoAComprar = args[2]
+                let buyProductoAComprar = buyArgs.slice(2).join(' ')
                 if (!buyProductoAComprar) return message.channel.send('Debes escribir un producto para comprar')
                 let buyIndexShop = await buyDbMencion.get('inventory.shop.productos').then(shop => {
                     let asd = shop.findIndex(item => item.item == buyProductoAComprar)
@@ -63,7 +64,8 @@ module.exports = {
                 message.channel.send(`Compraste ${buyProductoAComprar} por un precio de ${buyProducto.price}\$`)
                 break;
             case 'shell':
-                let shellItemToShell = args[1]
+                let shellArgumentos = args
+                let shellItemToShell = shellArgumentos.slice(1, args.length - 1).join(' ')
                 if (!shellItemToShell) return message.channel.send('Debes especificar el item que quieres vender')
                 const shellConfig = new db.crearDB(message.author.id, 'usuarios')
                 let shellIndexBag = await shellConfig.get('inventory.bag').then(obtenido => {
@@ -71,8 +73,10 @@ module.exports = {
                     return asd
                 })
                 if (shellIndexBag == undefined || shellIndexBag == -1) return message.channel.send('Hmm al parecer no tienes ese objeto en tu mochila')
-                if (!args[2]) return message.channel.send('Debes ponerle un precio al producto')
-                let shellPrecioProducto = parseInt(args[2])
+                let shellArgsPrice = args.pop()
+                if (!shellArgsPrice) return message.channel.send('Debes ponerle un precio al producto')
+                console.log(shellArgsPrice);
+                let shellPrecioProducto = parseInt(shellArgsPrice)
                 if (isNaN(shellPrecioProducto)) return message.channel.send('El precio que especificaste es incorrecto')
                 if (shellPrecioProducto > 1000) return message.channel.send('El precio no puede ser mayor a 1000')
                 if (!shellPrecioProducto) return message.channel.send('Debes especificar un precio')
@@ -122,7 +126,7 @@ module.exports = {
                 message.channel.send(embedShopShow)
                 break;
             case 'cancel':
-                let cancelProducto = args[1]
+                let cancelProducto = args.slice(1).join(' ')
                 if (!cancelProducto) return message.channel.send('Debes escribir un producto para quitar de la venta')
                 const cancelDbAuthor = new db.crearDB(message.author.id, 'usuarios')
                 let cancelIndexShop = await cancelDbAuthor.get('inventory.shop.productos').then(producto => {
