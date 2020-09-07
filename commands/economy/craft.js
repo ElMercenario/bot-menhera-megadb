@@ -10,10 +10,9 @@ module.exports = {
     execute: async (message, args) => {
         let itemCraft = args.join(' ')
         if (!itemCraft) return message.channel.send('Debes poner un item a craftear, inventate uno!\nLos numeros cuentan como multiplicador')
-        if (!isNaN(parseInt(itemCraft))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
+        if (isNaN(parseInt(itemCraft))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
         if (itemCraft.length > 30) return message.channel.send('No puedes crear un item mayor a 30 caracteres')
 
-        let multiplicador = /\d/gmiu
         let materiales = []
 
         regexp.map(valor => {
@@ -64,9 +63,9 @@ module.exports = {
                         })
                         let indexBag = authorBag.findIndex(itemBag => itemBag.item == itemCraft)
                         if (indexBag == -1) {
-                            config.push('inventory.bag', {item: itemCraft, cantidad: 1})
+                            config.push('inventory.bag', { item: itemCraft, cantidad: 1 })
                         } else {
-                            config.setIndex('inventory.bag', indexBag, {item: itemCraft, cantidad: authorBag[indexBag].cantidad + 1})
+                            config.setIndex('inventory.bag', indexBag, { item: itemCraft, cantidad: authorBag[indexBag].cantidad + 1 })
                         }
                         msg.delete()
                         message.channel.send(`Haz crafteado ${itemCraft}`)
@@ -78,7 +77,7 @@ module.exports = {
                 })
             })
         } else {
-            message.channel.send(`Hmm no entiendo que objeto mistico quieres craftear asi que te voy a cobrar ${itemCraft.length}\$ \nReacciona a ✅ para craftearlo o ❌ para cancelar`).then(msg=>{
+            message.channel.send(`Hmm no entiendo que objeto mistico quieres craftear asi que te voy a cobrar ${itemCraft.length}\$ \nReacciona a ✅ para craftearlo o ❌ para cancelar`).then(msg => {
                 msg.react('✅')
                 msg.react('❌')
                 const filtro = (reaction, user) => {
@@ -91,13 +90,13 @@ module.exports = {
                     const emoji = coleccion.first()
                     if (emoji.emoji.name == '✅') {
                         let moneyAuthor = await config.get('money.efectivo')
-                        if(itemCraft.length > moneyAuthor) return msg.delete(), message.channel.send(`No tienes ${itemCraft.length}\$ en efectivo`)
+                        if (itemCraft.length > moneyAuthor) return msg.delete(), message.channel.send(`No tienes ${itemCraft.length}\$ en efectivo`)
                         config.restar('money.efectivo', itemCraft.length)
                         let indexBag = authorBag.findIndex(itemBag => itemBag.item == itemCraft)
                         if (indexBag == -1) {
-                            config.push('inventory.bag', {item: itemCraft, cantidad: 1})
+                            config.push('inventory.bag', { item: itemCraft, cantidad: 1 })
                         } else {
-                            config.setIndex('inventory.bag', indexBag, {item: itemCraft, cantidad: authorBag[indexBag].cantidad + 1})
+                            config.setIndex('inventory.bag', indexBag, { item: itemCraft, cantidad: authorBag[indexBag].cantidad + 1 })
                         }
                         msg.delete()
                         message.channel.send(`Haz crafteado ${itemCraft}`)
