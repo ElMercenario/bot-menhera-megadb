@@ -25,6 +25,8 @@ module.exports = {
             }
         })
         if (MatchMine(args[0]) == undefined) return message.channel.send('Estas tratando de crear un mineral que se debe conseguir minando')
+        const config = new db.crearDB(message.author.id, 'usuarios')
+        let authorBag = await config.get('inventory.bag')
         if (materiales.length) {
             message.channel.send(`Materiales necesarios \`${materiales.join(', ')}\` \nReacciona a ✅ para craftearlo o ❌ para cancelar`).then(msg => {
                 msg.react('✅')
@@ -33,14 +35,11 @@ module.exports = {
                     return ["✅", "❌"].includes(reaction.emoji.name) && user.id === message.author.id;
                 }
                 msg.awaitReactions(filtro, { max: 1, time: 60000, errors: ['time'] }).catch(() => {
-                    
                     msg.edit('La creacion a sido cancelada ya que no se tomo una eleccion')
                 }).then(async coleccion => {
                     if (!coleccion) return
                     const emoji = coleccion.first()
                     if (emoji.emoji.name == '✅') {
-                        const config = new db.crearDB(message.author.id, 'usuarios')
-                        let authorBag = await config.get('inventory.bag')
                         let materialGastar = []
                         authorBag.map(item => {
                             materiales.map(material => {
@@ -50,7 +49,7 @@ module.exports = {
                                 }
                             })
                         })
-                        if (materiales.length) return message.channel.send(`No tienes los materiales en tu mocila \nMateriales que te faltan: \`${materiales.join(', ')}\``)
+                        if (materiales.length) return msg.delete(), message.channel.send(`No tienes los materiales en tu mocila \nMateriales que te faltan: \`${materiales.join(', ')}\``)
                         authorBag.map(item => {
                             materialGastar.map(material => {
                                 if (item.item == material) {
@@ -79,7 +78,36 @@ module.exports = {
                 })
             })
         } else {
-            message.channel.send('Hmm no entiendo que objeto mistico quieres craftear asi que solo te voy a cobrar')
+            message.channel.send(`Hmm no entiendo que objeto mistico quieres craftear asi que te voy a cobrar ${itemCraft.length}\$ \nReacciona a ✅ para craftearlo o ❌ para cancelar`).then(msg=>{
+                msg.react('✅')
+                msg.react('❌')
+                const filtro = (reaction, user) => {
+                    return ["✅", "❌"].includes(reaction.emoji.name) && user.id === message.author.id;
+                }
+                msg.awaitReactions(filtro, { max: 1, time: 60000, errors: ['time'] }).catch(() => {
+                    msg.edit('La creacion a sido cancelada ya que no se tomo una eleccion')
+                }).then(async coleccion => {
+                    if (!coleccion) return
+                    const emoji = coleccion.first()
+                    if (emoji.emoji.name == '✅') {
+                        let moneyAuthor = await config.get('money.efectivo')
+                        if(itemCraft.length > moneyAuthor) return msg.delete(), message.channel.send(`No tienes ${itemCraft.length}\$ en efectivo`)
+                        config.restar('money.efectivo', itemCraft.length)
+                        let indexBag = authorBag.findIndex(itemBag => itemBag.item == itemCraft)
+                        if (indexBag == -1) {
+                            config.push('inventory.bag', {item: itemCraft, cantidad: 1})
+                        } else {
+                            config.setIndex('inventory.bag', indexBag, {item: itemCraft, cantidad: authorBag[indexBag].cantidad + 1})
+                        }
+                        msg.delete()
+                        message.channel.send(`Haz crafteado ${itemCraft}`)
+                    }
+                    if (emoji.emoji.name == '❌') {
+                        msg.delete()
+                        message.channel.send('Ok se cancela el crafteo')
+                    }
+                })
+            })
         }
     }
 }
