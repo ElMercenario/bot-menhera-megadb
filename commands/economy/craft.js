@@ -1,3 +1,4 @@
+'use strict';
 const index = require('./index.json')
 const db = require('megadb')
 module.exports = {
@@ -9,8 +10,10 @@ module.exports = {
     disable: true,
     execute: async (message, args) => {
         let itemCraft = args.join(' ')
-        if (!itemCraft) return message.channel.send('Debes poner un item a craftear, inventate uno!\nLos numeros cuentan como multiplicador')
-        if (!isNaN(parseInt(itemCraft))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
+        if (!itemCraft) return message.channel.send('Debes poner un item a craftear, inventate uno!')
+        if (!args[1]) {
+            if (!isNaN(parseInt(args[0]))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
+        }
         if (itemCraft.length > 30) return message.channel.send('No puedes crear un item mayor a 30 caracteres')
 
         let materiales = []
