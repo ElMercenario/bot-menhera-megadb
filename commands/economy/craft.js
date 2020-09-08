@@ -4,13 +4,13 @@ module.exports = {
     name: 'craft',
     description: 'Crea items para venderlos',
     usage: 'craft < item >',
-    permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS', 'MANAGE_MESSAGES'],
+    permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'MANAGE_MESSAGES'],
     category: __dirname.split('\\').pop(),
     disable: true,
     execute: async (message, args) => {
         let itemCraft = args.join(' ')
         if (!itemCraft) return message.channel.send('Debes poner un item a craftear, inventate uno!\nLos numeros cuentan como multiplicador')
-        if (isNaN(parseInt(itemCraft))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
+        if (!isNaN(parseInt(itemCraft))) return message.channel.send(`ok pero... ${parseInt(itemCraft)} que?`)
         if (itemCraft.length > 30) return message.channel.send('No puedes crear un item mayor a 30 caracteres')
 
         let materiales = []
@@ -48,7 +48,7 @@ module.exports = {
                                 }
                             })
                         })
-                        if (materiales.length) return msg.delete(), message.channel.send(`No tienes los materiales en tu mocila \nMateriales que te faltan: \`${materiales.join(', ')}\``)
+                        if (materiales.length) return msg.delete(), message.channel.send(`No tienes los materiales en tu mochila \nMateriales que te faltan: \`${materiales.join(', ')}\``)
                         authorBag.map(item => {
                             materialGastar.map(material => {
                                 if (item.item == material) {
