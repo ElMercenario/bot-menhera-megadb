@@ -26,7 +26,7 @@ module.exports = {
                 }
             }
         })
-        if (MatchMine(args[0]) == undefined) return message.channel.send('Estas tratando de crear un mineral que se debe conseguir minando')
+        if (await MatchMine(args[0])) return message.channel.send('Estas tratando de crear un mineral que se debe conseguir minando')
         const config = new db.crearDB(message.author.id, 'usuarios')
         let authorBag = await config.get('inventory.bag')
         if (materiales.length) {
@@ -165,6 +165,6 @@ let regexp = [
     },
     {
         material: 'Perla',
-        regexp: /(m+(a+|4+)m+(a+|4+)d+(o+|0+))|(m+(a+|4+)m+(a+|4+)d+(i+|l+)s+(i+|l+)m+(o+|0+))/gimu
+        regexp: /(m+(a+|4+)m+(a+|4+)d+((o+|0+)(a+|4+)))|(m+(a+|4+)m+(a+|4+)d+(i+|l+)s+(i+|l+)m+(o+|0+))/gimu
     }
 ]
