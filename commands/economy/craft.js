@@ -147,5 +147,21 @@ let regexp = [
     {
         material: 'palo',
         regexp: /((e+|3+)s+p+(a+|4+)d+(a+|4+))|(s+w+(o+|0+)r+(d+)?)/gimu
+    },
+    {
+        material: 'Diamante',
+        regexp: /(d+(i+|l+)(a+|4+)m+(a+|4+)n+(t+|7+)(e+|3+))|(d+(i+|l+)(a+|4+)m+(o+|0+)n+d+)|((a+|4+)d+(a+|4+)m+(a+|4+)n+(t+|7+))/gimu
+    },
+    {
+        material: 'Carbon',
+        regexp: /(f+(o+|0+)g+(a+|4+)(t+|7+)(a+|4+))|(f+u+(e|3+)g+(o+|0+))|((a+|4+)n+(t+|7+)(o+|0+)r+c+h+(a+|4+))|((w+(o+|0+)d+)?(f+(i+|l+)r+(e+|3+)))|(t+(o+|0+)r+c+h+)/gimu
+    },
+    {
+        material: 'Amatista',
+        regexp: /((a+|4+)m+(a+|4+)t+(i+|l+)s+t+(a+|4+))/gimu
+    },
+    {
+        material: 'Perla',
+        regexp: /(m+(a+|4+)m+(a+|4+)d+(o+|0+))|(m+(a+|4+)m+(a+|4+)d+(i+|l+)s+(i+|l+)m+(o+|0+))/gimu
     }
 ]
