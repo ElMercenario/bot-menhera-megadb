@@ -6,7 +6,7 @@ module.exports = {
     usage: 'welcome < card / channel o chnl / message o msg >',
     permissions: ['SEND_MESSAGES', 'VIEW_CHANNEL', 'EMBED_LINKS', 'ATTACH_FILES'],
     category: __dirname.split('\\').pop(),
-    disable: true,
+    disable: false,
     execute: async (message, args) => {
         if (!message.member.permissions.has('ADMINISTRATOR')) return message.channel.send('No tienes permisos para ejecutar este comando')
         if (!args[0]) return message.channel.send('Debes especificar una accion a realizar asi <card / channel / message>')
