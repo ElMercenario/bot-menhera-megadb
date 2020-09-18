@@ -20,9 +20,9 @@ module.exports = {
         } else {
             config.setIndex('inventory.bag', indexItemBag, { item: usuBag[indexItemBag].item, cantidad: usuBag[indexItemBag].cantidad - 1 })
         }
-        let gif = await fetch(`https://api.tenor.com/v1/search?q=anime-${itemToUse.replace(/ /g, '-')}&key=IQ1KGGTERBX6&limit=50`)
+        let gif = await fetch(`https://api.tenor.com/v1/search?q=anime-${itemToUse.replace(/ /g, '-')}&key=IQ1KGGTERBX6&limit=5`)
             .then(res => res.json())
-            .then(json => json.results[(Math.floor(Math.random() * 50))].media[0].gif.url)
+            .then(json => json.results[(Math.floor(Math.random() * 5))].media[0].gif.url)
         const embedGif = new Discord.MessageEmbed()
             .setColor('RANDOM')
             .setTitle(`${message.author.tag} usó ${itemToUse}`)
